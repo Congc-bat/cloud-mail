@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#F1F1F1" id="theme-color-meta">
+  <meta name="theme-color" content="#000000" id="theme-color-meta">
   <meta name="description" content="Cloud Mail 是一个 Serverless 响应式邮箱服务，支持邮件发送，可部署到 Cloudflare 平台，降低服务器成本。Cloud Mail is a serverless responsive email service that supports email sending and can be deployed on Cloudflare to reduce server costs.">
   <title>Cloud Mail</title>
   <link rel="icon" href="/public/mail.png" type="image/png">
@@ -17,9 +17,9 @@
       const root = document.documentElement
       root.setAttribute('class', isDark ? 'dark' : '');
     }
+    /* 顶部导航为纯黑，手机端浏览器状态栏也跟随黑色 */
     const metaTag = document.getElementById('theme-color-meta');
-    const isMobile =  !window.matchMedia("(pointer: fine) and (hover: hover)").matches;
-    metaTag.setAttribute('content', isDark ? (isMobile ? '#141414' : '#000000') : (isMobile ? '#191A23' : '#F1F1F1'));
+    metaTag.setAttribute('content', '#000000');
   </script>
 </head>
 <style>
