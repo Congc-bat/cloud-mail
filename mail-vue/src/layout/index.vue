@@ -1,7 +1,7 @@
 <template>
   <div class="apple-shell">
 
-    <!-- ============ 全局导航（纯黑 44px）：徽章 + 站点名在最左 ============ -->
+    <!-- ============ 顶部横栏：左=汉堡开关 / 徽章 + 站点名，右=账号区 ============ -->
     <header class="global-nav">
       <div class="gn-left">
         <button class="gn-burger" type="button" @click="toggleAside">
@@ -17,13 +17,6 @@
           <img class="gn-badge" :src="BADGE_SRC" alt="badge" draggable="false"/>
           <span v-if="SHOW_WORDMARK" class="gn-wordmark">{{ siteTitle }}</span>
         </div>
-
-        <nav class="gn-quiet">
-          <a class="gn-link" :class="{ 'is-active': route.name === 'email' }" @click="go('email')">{{ $t('inbox') }}</a>
-          <a v-perm="'email:send'" class="gn-link" :class="{ 'is-active': route.name === 'send' }" @click="go('send')">{{ $t('sent') }}</a>
-          <a class="gn-link" :class="{ 'is-active': route.name === 'star' }" @click="go('star')">{{ $t('starred') }}</a>
-          <a class="gn-link" :class="{ 'is-active': route.name === 'setting' }" @click="go('setting')">{{ $t('settings') }}</a>
-        </nav>
       </div>
 
       <div class="gn-right">
@@ -71,7 +64,6 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import {useUiStore} from "@/store/ui.js";
 import {useSettingStore} from "@/store/setting.js";
 import {useRoute} from "vue-router";
-import router from "@/router";
 import {useI18n} from "vue-i18n";
 import writer from '@/layout/write/index.vue'
 
@@ -96,16 +88,20 @@ const isNarrow = ref(window.innerWidth < 1025)
 const siteTitle = computed(() => settingStore.settings.title || 'Yifly Mail')
 const pageTitle = computed(() => route.meta.title ? t(route.meta.title) : siteTitle.value)
 
+/* 只在跨越手机/桌面断点时重置一次默认状态，
+   不要每次 resize 都强制打开，否则用户手动收起后会被顶开 */
 const handleResize = () => {
-  isNarrow.value = window.innerWidth < 1025
-  uiStore.asideShow = window.innerWidth > 1024;
+  const narrow = window.innerWidth < 1025
+  if (narrow !== isNarrow.value) {
+    isNarrow.value = narrow
+    uiStore.asideShow = !narrow
+  }
 }
 
 onMounted(() => {
   uiStore.writerRef = writerRef
-
+  isNarrow.value = window.innerWidth < 1025
   window.addEventListener('resize', handleResize)
-  handleResize()
 })
 
 onBeforeUnmount(() => {
@@ -118,13 +114,6 @@ function toggleAside() {
 
 function openSend() {
   uiStore.writerRef?.open()
-}
-
-function go(name) {
-  if (route.name === name) return
-  if (router.hasRoute(name) || ['email', 'star', 'setting'].includes(name)) {
-    router.push({ name })
-  }
 }
 </script>
 
@@ -139,12 +128,12 @@ function go(name) {
   background: var(--ym-canvas);
 }
 
-/* ---------- 全局导航：纯黑，整站唯一的纯黑面 ---------- */
+/* ---------- 顶部横栏：橙色底 + 白字 ---------- */
 .global-nav {
   flex: 0 0 auto;
   height: var(--ym-nav-h);
-  background: var(--ym-black);
-  color: #fff;
+  background: var(--ym-nav-bg);
+  color: var(--ym-nav-ink);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -158,7 +147,7 @@ function go(name) {
 .gn-right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
   min-width: 0;
 }
 
@@ -169,26 +158,27 @@ function go(name) {
 .gn-burger {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
   border-radius: var(--ym-r-sm);
-  color: #fff;
+  color: var(--ym-nav-ink);
   cursor: pointer;
   transition: background 0.18s ease;
 
   svg {
-    width: 17px;
-    height: 17px;
+    width: 22px;
+    height: 22px;
   }
 
   svg line {
     stroke: currentColor;
-    stroke-width: 1.6;
+    stroke-width: 1.8;
     stroke-linecap: round;
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.18);
   }
 }
 
@@ -196,14 +186,14 @@ function go(name) {
 .gn-mark {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   min-width: 0;
 }
 
 .gn-badge {
-  height: 26px;
+  height: 40px;
   width: auto;
-  max-width: 190px;
+  max-width: 320px;
   object-fit: contain;
   flex: 0 0 auto;
   user-select: none;
@@ -211,55 +201,23 @@ function go(name) {
 
 .gn-wordmark {
   font-family: var(--ym-font-display);
-  font-size: 14px;
+  font-size: 23px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #fff;
+  color: var(--ym-nav-ink);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* 导航链接（只在宽屏显示） */
-.gn-quiet {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  padding-left: 18px;
-  margin-left: 4px;
-  border-left: 1px solid rgba(255, 255, 255, 0.14);
-  height: 20px;
-}
-
-.gn-link {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.12px;
-  color: rgba(255, 255, 255, 0.82);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.18s ease;
-
-  &:hover,
-  &.is-active {
-    color: #fff;
-  }
-}
-
-@media (max-width: 1000px) {
-  .gn-quiet {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .gn-wordmark {
-    display: none;
-  }
-
+@media (max-width: 767px) {
   .gn-badge {
-    max-width: 150px;
+    height: 30px;
+    max-width: 46vw;
+  }
+
+  .gn-wordmark {
+    font-size: 18px;
   }
 
   .global-nav {
@@ -368,6 +326,16 @@ html.dark .subnav {
   height: 100%;
   overflow: hidden;
   background: var(--ym-parchment);
+  transition: flex-basis 0.28s cubic-bezier(0.32, 0.72, 0, 1),
+              width 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* 宽屏：点左上角汉堡按钮收起 / 展开左侧栏 */
+@media (min-width: 1025px) {
+  .el-aside:not(.aside-show) {
+    flex-basis: 0;
+    width: 0;
+  }
 }
 
 .main-container {
