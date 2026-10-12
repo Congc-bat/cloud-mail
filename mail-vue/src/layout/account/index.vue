@@ -679,4 +679,76 @@ path[fill="#ffdda1"] {
   position: fixed;
 }
 
+/* ============================================================
+ * Apple 风格皮肤（覆盖层）
+ * ============================================================ */
+.account-box {
+  border-right: 1px solid var(--ym-hairline-soft) !important;
+  background-color: var(--ym-pearl);
+
+  .head-opt {
+    height: 44px;
+    padding-left: 16px;
+    padding-right: 16px;
+    color: var(--ym-ink-48);
+
+    .icon:hover {
+      color: var(--ym-primary);
+    }
+  }
+
+  .item {
+    background-color: var(--ym-canvas);
+    border: 1px solid var(--ym-hairline-soft);
+    border-radius: var(--ym-r-md);
+    padding: 12px 13px;
+    margin-bottom: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: background 0.16s ease, border-color 0.16s ease;
+
+    .account {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+      margin-bottom: 14px;
+      color: var(--ym-ink);
+    }
+
+    .opt {
+      font-size: 12px;
+      color: var(--ym-ink-48);
+    }
+  }
+
+  .item:first-child {
+    margin-top: 10px;
+  }
+
+  .item:hover {
+    background: var(--ym-canvas);
+    border-color: rgba(0, 102, 204, 0.28);
+  }
+
+  .item-choose,
+  .item-choose:hover {
+    background: rgba(0, 102, 204, 0.08);
+    border-color: rgba(0, 102, 204, 0.4);
+  }
+}
+
+html.dark .account-box {
+  background-color: var(--ym-parchment);
+
+  .item {
+    background-color: var(--ym-canvas);
+  }
+
+  .item-choose,
+  .item-choose:hover {
+    background: rgba(41, 151, 255, 0.14);
+    border-color: rgba(41, 151, 255, 0.4);
+  }
+}
+
 </style>
