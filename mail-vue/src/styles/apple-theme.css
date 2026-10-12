@@ -1,0 +1,514 @@
+/* ============================================================
+ * Yifly Mail 主题层（Apple 设计语言）
+ * ------------------------------------------------------------
+ * 只覆盖「皮肤」：颜色令牌 + Element Plus 变量 + 少量组件外观，
+ * 不改动任何业务逻辑、接口与权限。
+ *
+ * 生效方式：在 src/main.js 的最后一行 import 本文件（必须在
+ * element-plus/theme-chalk/dark/css-vars.css 之后，才能覆盖其默认色）。
+ * ============================================================ */
+
+:root {
+    /* ---------- 品牌与强调色（整站只保留一个可交互色） ---------- */
+    --ym-primary: #0066cc;
+    --ym-primary-focus: #0071e3;
+    --ym-primary-dark: #0052a3;
+    --ym-primary-on-dark: #2997ff;
+
+    /* ---------- 表面 ---------- */
+    --ym-canvas: #ffffff;          /* 内容面 */
+    --ym-parchment: #f5f5f7;       /* 侧栏 / 悬停面 */
+    --ym-pearl: #fafafc;           /* 次级面板 */
+    --ym-black: #000000;           /* 仅顶部导航使用 */
+    --ym-chip: #d2d2d7;
+
+    /* ---------- 文字 ---------- */
+    --ym-ink: #1d1d1f;
+    --ym-ink-80: #333333;
+    --ym-ink-48: #7a7a7a;
+    --ym-ink-placeholder: #a1a1a6;
+
+    /* ---------- 描边 ---------- */
+    --ym-hairline: #e0e0e0;
+    --ym-hairline-soft: rgba(0, 0, 0, 0.06);
+    --ym-divider-soft: #f0f0f0;
+
+    /* ---------- 圆角 / 尺寸 ---------- */
+    --ym-r-xs: 5px;
+    --ym-r-sm: 8px;
+    --ym-r-md: 11px;
+    --ym-r-lg: 18px;
+    --ym-r-pill: 9999px;
+    --ym-nav-h: 44px;
+    --ym-subnav-h: 52px;
+    --ym-aside-w: 240px;
+
+    /* ---------- 字体 ---------- */
+    --ym-font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    --ym-font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+
+    /* ============================================================
+     * Element Plus 变量映射（浅色）
+     * ============================================================ */
+    --el-color-primary: var(--ym-primary);
+    --el-color-primary-dark-2: var(--ym-primary-dark);
+    --el-color-primary-light-3: #4d94db;
+    --el-color-primary-light-5: #80b3e6;
+    --el-color-primary-light-7: #b3d1f0;
+    --el-color-primary-light-8: #cce0f5;
+    --el-color-primary-light-9: #e6f0fa;
+
+    --el-text-color-primary: var(--ym-ink);
+    --el-text-color-regular: var(--ym-ink-80);
+    --el-text-color-secondary: var(--ym-ink-48);
+    --el-text-color-placeholder: var(--ym-ink-placeholder);
+    --el-text-color-disabled: #c7c7cc;
+
+    --el-border-color: var(--ym-hairline);
+    --el-border-color-light: #ebebed;
+    --el-border-color-lighter: var(--ym-divider-soft);
+    --el-border-color-extra-light: #f7f7f9;
+    --el-border-color-darker: #cfcfd4;
+
+    --el-fill-color: var(--ym-parchment);
+    --el-fill-color-light: var(--ym-parchment);
+    --el-fill-color-lighter: var(--ym-pearl);
+    --el-fill-color-extra-light: #fbfbfd;
+    --el-fill-color-blank: var(--ym-canvas);
+    --el-bg-color: var(--ym-canvas);
+    --el-bg-color-page: var(--ym-parchment);
+    --el-bg-color-overlay: var(--ym-canvas);
+
+    --el-border-radius-base: var(--ym-r-sm);
+    --el-border-radius-small: 6px;
+    --el-border-radius-round: var(--ym-r-pill);
+    --el-box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
+    --el-box-shadow-light: 0 6px 20px rgba(0, 0, 0, 0.08);
+    --el-box-shadow-lighter: 0 3px 12px rgba(0, 0, 0, 0.06);
+    --el-font-family: var(--ym-font-text);
+    --el-font-size-base: 14px;
+    --el-transition-duration: 0.18s;
+
+    --el-menu-bg-color: transparent;
+    --el-menu-hover-bg-color: rgba(0, 0, 0, 0.045);
+    --el-menu-active-color: var(--ym-primary);
+    --el-menu-text-color: var(--ym-ink);
+    --el-menu-item-height: 38px;
+    --el-menu-border-color: transparent;
+
+    /* ============================================================
+     * 项目自带变量：统一到新配色（保持变量名，避免影响旧样式）
+     * ============================================================ */
+    --aside-backgound: var(--ym-parchment);
+    --aside-menu-active-background: rgba(0, 102, 204, 0.10);
+    --aside-right-border: 0 0 30px rgba(0, 0, 0, 0.10);
+    --header-actions-border: inset 0 -1px 0 0 var(--ym-hairline-soft);
+    --email-scroll-content-color: var(--ym-ink-48);
+    --email-hover-background: var(--ym-parchment);
+    --email-right-click-background: rgba(0, 102, 204, 0.08);
+    --light-border-color: var(--ym-hairline);
+    --light-ill: var(--ym-parchment);
+    --light-border: var(--ym-hairline);
+    --base-fill: #e8e8ed;
+    --base-border-color: var(--ym-hairline);
+    --secondary-text-color: var(--ym-ink-48);
+    --regular-text-color: var(--ym-ink-80);
+    --dark-border: var(--ym-hairline);
+    --loadding-background: rgba(255, 255, 255, 0.78);
+    --scrollbar-track-color: var(--ym-chip);
+    --extra-light-fill: var(--ym-pearl);
+    --settings-page-background: var(--ym-parchment);
+    --login-switch-color: var(--ym-primary);
+    --choose-account-background: #e6f0fa;
+    --message-block-color: rgba(0, 0, 0, 0);
+}
+
+/* ============================================================
+ * 暗色令牌
+ * 说明：使用 html.dark 提高一级优先级，确保覆盖 Element Plus
+ * 自带的 .dark 变量（它在 main.js 里晚于 style.css 加载）。
+ * ============================================================ */
+html.dark {
+    --ym-primary: #2997ff;
+    --ym-primary-focus: #2997ff;
+    --ym-primary-dark: #147ce5;
+
+    --ym-canvas: #1d1d1f;
+    --ym-parchment: #141414;
+    --ym-pearl: #232325;
+    --ym-chip: #4a4a4e;
+
+    --ym-ink: #f5f5f7;
+    --ym-ink-80: #d8d8dc;
+    --ym-ink-48: #a1a1a6;
+    --ym-ink-placeholder: #8d8d92;
+
+    --ym-hairline: rgba(255, 255, 255, 0.14);
+    --ym-hairline-soft: rgba(255, 255, 255, 0.09);
+    --ym-divider-soft: rgba(255, 255, 255, 0.07);
+
+    --el-color-primary: var(--ym-primary);
+    --el-color-primary-dark-2: var(--ym-primary-dark);
+    --el-color-primary-light-3: #2370b9;
+    --el-color-primary-light-5: #1f568a;
+    --el-color-primary-light-7: #1a3b5b;
+    --el-color-primary-light-8: #182e43;
+    --el-color-primary-light-9: #16212c;
+
+    --el-text-color-primary: var(--ym-ink);
+    --el-text-color-regular: var(--ym-ink-80);
+    --el-text-color-secondary: var(--ym-ink-48);
+    --el-text-color-placeholder: var(--ym-ink-placeholder);
+    --el-text-color-disabled: #6e6e73;
+
+    --el-border-color: var(--ym-hairline);
+    --el-border-color-light: rgba(255, 255, 255, 0.11);
+    --el-border-color-lighter: var(--ym-divider-soft);
+    --el-border-color-extra-light: rgba(255, 255, 255, 0.04);
+    --el-border-color-darker: rgba(255, 255, 255, 0.2);
+
+    --el-fill-color: #2a2a2c;
+    --el-fill-color-light: #2a2a2c;
+    --el-fill-color-lighter: var(--ym-pearl);
+    --el-fill-color-extra-light: #1f1f21;
+    --el-fill-color-blank: var(--ym-canvas);
+    --el-bg-color: var(--ym-canvas);
+    --el-bg-color-page: var(--ym-parchment);
+    --el-bg-color-overlay: #2a2a2c;
+
+    --el-box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    --el-box-shadow-light: 0 6px 20px rgba(0, 0, 0, 0.45);
+    --el-box-shadow-lighter: 0 3px 12px rgba(0, 0, 0, 0.35);
+
+    --el-menu-bg-color: transparent;
+    --el-menu-hover-bg-color: rgba(255, 255, 255, 0.06);
+    --el-menu-text-color: var(--ym-ink);
+    --el-menu-border-color: transparent;
+
+    --aside-backgound: var(--ym-parchment);
+    --aside-menu-active-background: rgba(41, 151, 255, 0.16);
+    --aside-right-border: 0 0 30px rgba(0, 0, 0, 0.6);
+    --header-actions-border: inset 0 -1px 0 0 var(--ym-hairline-soft);
+    --email-scroll-content-color: var(--ym-ink-48);
+    --email-hover-background: #232325;
+    --email-right-click-background: rgba(41, 151, 255, 0.14);
+    --light-border-color: var(--ym-hairline);
+    --light-ill: #232325;
+    --light-border: var(--ym-hairline);
+    --base-fill: #2a2a2c;
+    --base-border-color: var(--ym-hairline);
+    --secondary-text-color: var(--ym-ink-48);
+    --regular-text-color: var(--ym-ink-80);
+    --dark-border: var(--ym-hairline);
+    --loadding-background: rgba(0, 0, 0, 0.45);
+    --scrollbar-track-color: var(--ym-chip);
+    --extra-light-fill: var(--ym-pearl);
+    --settings-page-background: var(--ym-parchment);
+    --choose-account-background: rgba(41, 151, 255, 0.14);
+}
+
+/* ============================================================
+ * 全局基础
+ * ============================================================ */
+body {
+    font-family: var(--ym-font-text);
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: var(--ym-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    background: var(--ym-canvas);
+}
+
+::selection {
+    background: rgba(0, 102, 204, 0.14);
+}
+
+/* 细一点的滚动条：安静的系统感 */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ym-chip) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.14);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: var(--ym-r-pill);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.28);
+    background-clip: content-box;
+}
+
+html.dark *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    background-clip: content-box;
+}
+
+html.dark *::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+    background-clip: content-box;
+}
+
+/* NProgress 顶部进度条：用强调色 */
+#nprogress .bar {
+    background: var(--ym-primary) !important;
+    height: 2px;
+}
+
+/* 首屏 loading（index.html 内联样式）跟随主题色 */
+.loading-progress {
+    background: rgba(0, 102, 204, 0.18) !important;
+}
+
+.loading-progress::before {
+    background: var(--ym-primary) !important;
+}
+
+.loading-progress::after {
+    background: rgba(0, 102, 204, 0.45) !important;
+}
+
+/* ============================================================
+ * 按钮：主按钮为实心强调色胶囊，次按钮为描边胶囊
+ * ============================================================ */
+.el-button {
+    font-weight: 400;
+    letter-spacing: -0.2px;
+    transition: transform 0.12s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.el-button:active {
+    transform: scale(0.97);
+}
+
+.el-button--primary {
+    background: var(--ym-primary);
+    border-color: var(--ym-primary);
+}
+
+.el-button--primary:hover,
+.el-button--primary:focus {
+    background: var(--ym-primary-focus);
+    border-color: var(--ym-primary-focus);
+}
+
+.el-button.is-plain,
+.el-button--default {
+    background: var(--ym-canvas);
+    border-color: var(--ym-hairline);
+}
+
+.el-button.is-plain:hover {
+    background: var(--ym-parchment);
+    border-color: var(--ym-primary);
+    color: var(--ym-primary);
+}
+
+.el-button--small,
+.el-button--small.is-round {
+    border-radius: var(--ym-r-sm);
+}
+
+/* ============================================================
+ * 表单控件：白色面 + 发丝描边，聚焦时只留一圈强调色
+ * ============================================================ */
+.el-input__wrapper,
+.el-textarea__inner,
+.el-select__wrapper {
+    background-color: var(--ym-canvas);
+    box-shadow: 0 0 0 1px var(--ym-hairline) inset;
+    border-radius: var(--ym-r-sm);
+    transition: box-shadow 0.18s ease;
+}
+
+.el-input__wrapper:hover,
+.el-textarea__inner:hover,
+.el-select__wrapper:hover {
+    box-shadow: 0 0 0 1px var(--el-border-color-darker) inset;
+}
+
+.el-input__wrapper.is-focus,
+.el-textarea__inner:focus,
+.el-select__wrapper.is-focused {
+    box-shadow: 0 0 0 1px var(--ym-primary-focus) inset, 0 0 0 3px rgba(0, 113, 227, 0.12) !important;
+}
+
+.el-input-group__append,
+.el-input-group__prepend {
+    background: var(--ym-parchment);
+    border-radius: var(--ym-r-sm);
+}
+
+/* ============================================================
+ * 卡片 / 弹层 / 提示
+ * ============================================================ */
+.el-card {
+    border: 1px solid var(--ym-hairline-soft);
+    border-radius: var(--ym-r-lg);
+    box-shadow: none;
+    background: var(--ym-canvas);
+}
+
+.el-dialog,
+.el-message-box {
+    border-radius: var(--ym-r-lg);
+    border: 1px solid var(--ym-hairline-soft);
+    box-shadow: var(--el-box-shadow);
+    padding: 20px 22px;
+}
+
+.el-dialog__title,
+.el-message-box__title {
+    font-family: var(--ym-font-display);
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--ym-ink);
+}
+
+.el-popper,
+.el-dropdown__popper,
+.el-select__popper {
+    border-radius: var(--ym-r-md);
+    border: 1px solid var(--ym-hairline-soft) !important;
+    box-shadow: var(--el-box-shadow-light);
+}
+
+.el-dropdown-menu__item {
+    border-radius: var(--ym-r-sm);
+    margin: 2px 4px;
+    padding: 7px 12px;
+    font-size: 13px;
+    letter-spacing: -0.16px;
+}
+
+.el-dropdown-menu__item:not(.is-disabled):hover {
+    background: var(--ym-parchment);
+    color: var(--ym-primary);
+}
+
+.el-message {
+    border-radius: var(--ym-r-pill);
+    border: 1px solid var(--ym-hairline-soft);
+    box-shadow: var(--el-box-shadow-light);
+}
+
+.el-notification {
+    border-radius: var(--ym-r-lg);
+    border: 1px solid var(--ym-hairline-soft);
+    box-shadow: var(--el-box-shadow-light);
+}
+
+.el-notification__title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* ============================================================
+ * 标签 / 徽标 / 表格 / 其它
+ * ============================================================ */
+.el-tag {
+    border-radius: var(--ym-r-pill);
+    border-color: var(--ym-hairline-soft);
+    font-weight: 400;
+    letter-spacing: -0.12px;
+}
+
+.el-tag--primary {
+    background: rgba(0, 102, 204, 0.08);
+    border-color: rgba(0, 102, 204, 0.16);
+    color: var(--ym-primary);
+}
+
+.el-table {
+    --el-table-border-color: var(--ym-hairline-soft);
+    --el-table-header-bg-color: var(--ym-parchment);
+    --el-table-row-hover-bg-color: var(--ym-parchment);
+    font-size: 13px;
+}
+
+.el-table th.el-table__cell {
+    font-weight: 600 !important;
+    color: var(--ym-ink-48);
+    letter-spacing: -0.12px;
+}
+
+.el-table td.el-table__cell,
+.el-table th.el-table__cell {
+    border-bottom: 1px solid var(--ym-hairline-soft);
+}
+
+.el-pagination {
+    --el-pagination-button-bg-color: transparent;
+    font-weight: 400;
+}
+
+.el-pagination button,
+.el-pager li {
+    border-radius: var(--ym-r-sm) !important;
+}
+
+.el-checkbox__inner,
+.el-radio__inner {
+    border-radius: 4px;
+    border-color: var(--ym-chip);
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: var(--ym-primary);
+    border-color: var(--ym-primary);
+}
+
+.el-switch.is-checked .el-switch__core {
+    background-color: var(--ym-primary);
+    border-color: var(--ym-primary);
+}
+
+.el-tabs__item {
+    font-size: 14px;
+    letter-spacing: -0.2px;
+}
+
+.el-tabs__active-bar {
+    background-color: var(--ym-primary);
+}
+
+.el-alert {
+    border-radius: var(--ym-r-md);
+}
+
+.el-empty__description {
+    color: var(--ym-ink-48);
+    font-size: 13px;
+}
+
+.el-loading-mask {
+    background-color: var(--loadding-background);
+}
+
+/* TinyMCE 编辑器（写邮件正文）跟随表面色 */
+.tox .tox-toolbar-overlord,
+.tox .tox-toolbar__primary,
+.tox .tox-edit-area::before {
+    background-color: var(--ym-canvas) !important;
+}
+
+.tox-tinymce {
+    border-radius: var(--ym-r-md) !important;
+    border-color: var(--ym-hairline) !important;
+}
