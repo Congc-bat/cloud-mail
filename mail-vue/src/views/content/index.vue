@@ -475,5 +475,173 @@ const handleDelete = () => {
   margin-bottom: 30px;
 }
 
+/* ============================================================
+ * Apple 风格皮肤（覆盖层）：阅读面板
+ * ============================================================ */
+.header-actions {
+  padding: 8px 16px;
+  gap: 14px;
+  box-shadow: none;
+  border-bottom: 1px solid var(--ym-hairline-soft);
+  background: var(--ym-canvas);
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+    border-radius: 50%;
+    color: var(--ym-ink-80);
+    transition: background 0.16s ease, color 0.16s ease;
+  }
+
+  .icon:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--ym-ink);
+  }
+}
+
+html.dark .header-actions .icon:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ym-ink);
+}
+
+/* 工具条高度由 38px 变为 49px，同步滚动区高度 */
+.scrollbar {
+  height: calc(100% - 49px);
+}
+
+.container {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 32px 32px 48px;
+  font-size: 15px;
+
+  @media (max-width: 1023px) {
+    padding: 20px 16px 32px;
+  }
+
+  .email-title {
+    font-family: var(--ym-font-display);
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.374px;
+    margin-bottom: 17px;
+    color: var(--ym-ink);
+  }
+
+  .content {
+    .email-info {
+      border-bottom: 1px solid var(--ym-hairline-soft);
+      padding-bottom: 17px;
+      margin-bottom: 24px;
+
+      .send,
+      .receive {
+        align-items: baseline;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .send-source,
+      .source {
+        min-width: 48px;
+        padding-right: 0;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: -0.12px;
+        color: var(--ym-ink-48);
+      }
+
+      .send-name {
+        font-size: 15px;
+        letter-spacing: -0.2px;
+        color: var(--ym-ink);
+      }
+
+      .send-name-title {
+        font-weight: 600;
+        padding-right: 6px;
+      }
+
+      .receive-email {
+        font-size: 14px;
+        letter-spacing: -0.2px;
+        color: var(--ym-ink-80);
+      }
+
+      .date {
+        margin-top: 10px;
+        margin-bottom: 0;
+        font-size: 13px;
+        letter-spacing: -0.16px;
+        color: var(--ym-ink-48);
+      }
+    }
+
+    /* 附件：工具卡片 */
+    .att {
+      margin-top: 32px;
+      width: 100%;
+      padding: 0;
+      border: 0;
+
+      .att-title {
+        margin-bottom: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: -0.2px;
+        color: var(--ym-ink-48);
+      }
+
+      .att-item {
+        padding: 12px 14px;
+        background: var(--ym-canvas);
+        border: 1px solid var(--ym-hairline);
+        border-radius: var(--ym-r-lg);
+        transition: border-color 0.16s ease;
+
+        &:hover {
+          border-color: var(--ym-chip);
+        }
+
+        .att-icon:not(.opt-icon) {
+          width: 34px;
+          height: 34px;
+          display: grid;
+          place-items: center;
+          border-radius: var(--ym-r-sm);
+          background: var(--ym-parchment);
+        }
+
+        .att-name {
+          font-size: 14px;
+          font-weight: 500;
+          letter-spacing: -0.2px;
+          color: var(--ym-ink);
+        }
+
+        .att-size {
+          font-size: 12px;
+          letter-spacing: -0.12px;
+          color: var(--ym-ink-48);
+        }
+
+        .opt-icon {
+          color: var(--ym-ink-48);
+
+          &:hover {
+            color: var(--ym-primary);
+          }
+        }
+      }
+    }
+  }
+}
+
+html.dark .container .content .att .att-icon:not(.opt-icon) {
+  background: var(--ym-pearl);
+}
+
 
 </style>
