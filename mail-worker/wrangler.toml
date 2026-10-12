@@ -1,3 +1,11 @@
+# ============================================================
+# mail-worker/wrangler.toml —— 已填好 D1 / KV 的版本
+# 用法：直接覆盖项目里的 mail-worker/wrangler.toml，提交推送。
+# 说明：Cloudflare 的“连 Git 自动构建”以本文件为准部署。
+#       原来的文件里 D1 / KV 绑定是注释状态，所以每次构建都会把
+#       这两个绑定清掉；现在写死在这里，以后怎么构建都不会掉。
+# ============================================================
+
 name = "cloud-mail"
 main = "src/index.js"
 compatibility_date = "2025-06-04"
@@ -6,42 +14,46 @@ keep_vars = true
 [observability]
 enabled = true
 
-#[[d1_databases]]
-#binding = "db"			#d1数据库绑定名默认不可修改
-#database_name = ""		#d1数据库名字
-#database_id = ""		#d1数据库id
+# ---------- 数据库（D1）：必须 ----------
+[[d1_databases]]
+binding = "db"
+database_name = "cloudmail"
+database_id = "0991ff97-4d0a-4f83-a2d8-2bd74347daa0"
 
-#[[kv_namespaces]]
-#binding = "kv"			#kv绑定名默认不可修改
-#id = ""					#kv数据库id
+# ---------- 缓存（KV）：必须 ----------
+[[kv_namespaces]]
+binding = "kv"
+id = "fe257df2b2f64853848e731a23973dd5"
 
+# ---------- 附件存储（R2）：可选 ----------
+# 有 R2 桶就取消注释并填桶名；没有就保持注释（附件会存到 KV）
 #[[r2_buckets]]
-#binding = "r2"			#r2对象存储绑定名默认不可修改
-#bucket_name = ""		#r2对象存储桶的名字
+#binding = "r2"
+#bucket_name = "cloud-mail"
 
-#[[send_email]]
-#name = "email"			#CF发件, 配置后优先使用
-
+# ---------- Workers AI（识别邮件验证码）：已在用，保持不动 ----------
 [ai]
 binding = "ai"
 
+# ---------- 前端静态资源 ----------
 [assets]
-binding = "assets"		#静态资源绑定名默认不可修改
-directory = "./dist"	#前端vue项目打包的静态资源存放位置,默认dist
+binding = "assets"
+directory = "./dist"
 not_found_handling = "single-page-application"
 run_worker_first = true
 
 [triggers]
-crons = ["0 * * * *"]	#每小时执行；resetDaySendCount 仅在 UTC 0 点生效
+crons = ["0 * * * *"]	# 每小时执行；resetDaySendCount 仅在 UTC 0 点生效
 
+# ---------- 运行时变量 ----------
+# 你的 admin / domain / jwt_secret 已经在 Cloudflare 控制台的
+# “运行时变量和密钥”里配好了，配合上面的 keep_vars = true 会被自动保留，
+# 所以这里不用重复写；写进来反而会把密钥暴露在仓库里，不建议。
+#[vars]
+#domain = ["yifly.site", "ahau.yifly.site"]
+#admin = "admin@yifly.site"
+#jwt_secret = "（不要写进仓库）"
 
-[vars]
-#ai_model = ""			#ai模型,不填默认使用@cf/meta/llama-3.1-8b-instruct-fast
-#analysis_cache = false			#是否开启分析数据缓存
-#orm_log = false			#是否sql日志
-#domain = []				#邮件域名可可配置多个 示例: ["example1.com","example2.com"]
-#admin = ""					#管理员的邮箱	示例: admin@example.com
-#jwt_secret = ""			#jwt令牌的密钥,随便填一串字符串
-
+# ---------- 构建 ----------
 [build]
 command = "pnpm --prefix ../mail-vue install && pnpm --prefix ../mail-vue run build"
