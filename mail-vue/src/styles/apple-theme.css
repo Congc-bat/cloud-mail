@@ -19,8 +19,17 @@
     --ym-canvas: #ffffff;          /* 内容面 */
     --ym-parchment: #f5f5f7;       /* 侧栏 / 悬停面 */
     --ym-pearl: #fafafc;           /* 次级面板 */
-    --ym-black: #000000;           /* 仅顶部导航使用 */
     --ym-chip: #d2d2d7;
+
+    /* ---------- 顶部横栏 ----------
+     * 想换顶栏颜色只改这一行即可。几个候选：
+     *   #e8590c  默认（鲜橙，配白字）
+     *   #f26b1d  更亮一点
+     *   #c2410c  更深，白字对比度最好
+     *   #06723e  学院绿（和徽章同色系）
+     */
+    --ym-nav-bg: #e8590c;
+    --ym-nav-ink: #ffffff;
 
     /* ---------- 文字 ---------- */
     --ym-ink: #1d1d1f;
@@ -39,7 +48,7 @@
     --ym-r-md: 11px;
     --ym-r-lg: 18px;
     --ym-r-pill: 9999px;
-    --ym-nav-h: 44px;
+    --ym-nav-h: 64px;
     --ym-subnav-h: 52px;
     --ym-aside-w: 240px;
 
@@ -139,6 +148,8 @@ html.dark {
     --ym-parchment: #141414;
     --ym-pearl: #232325;
     --ym-chip: #4a4a4e;
+    --ym-nav-bg: #d3500a;          /* 暗色模式可套用更深一档的橙 */
+    --ym-nav-ink: #ffffff;
 
     --ym-ink: #f5f5f7;
     --ym-ink-80: #d8d8dc;
