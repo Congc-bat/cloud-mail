@@ -1,93 +1,80 @@
 <template>
-  <div class="header" :class="!hasPerm('email:send') ? 'not-send' : ''">
-    <div class="header-btn">
-      <hanburger @click="changeAside"></hanburger>
-      <span class="breadcrumb-item">{{ $t(route.meta.title) }}</span>
+  <!-- 全局导航右侧工具区（主题 / 公告 / 账号） -->
+  <div class="toolbar">
+    <div v-if="uiStore.dark" class="sun-icon icon-item" @click="openDark($event)">
+      <Icon icon="mingcute:sun-fill"/>
     </div>
-    <div v-perm="'email:send'" class="writer-box" @click="openSend">
-      <div class="writer">
-        <Icon icon="material-symbols:edit-outline-sharp" width="22" height="22"/>
-      </div>
+    <div v-else class="dark-icon icon-item" @click="openDark($event)">
+      <Icon icon="solar:moon-linear"/>
     </div>
-    <div class="toolbar">
-      <div v-if="uiStore.dark" class="sun-icon icon-item" @click="openDark($event)">
-        <Icon icon="mingcute:sun-fill"/>
-      </div>
-      <div v-else class="dark-icon icon-item" @click="openDark($event)">
-        <Icon icon="solar:moon-linear"/>
-      </div>
-      <div class="notice icon-item" @click="openNotice">
-        <Icon icon="streamline-plump:announcement-megaphone"/>
-      </div>
-      <el-dropdown ref="userinfoRef" @visible-change="e => userInfoShow = e" :teleported="false" popper-class="detail-dropdown">
-        <div class="avatar" @click="userInfoHide" >
-          <div class="avatar-text">
-            <div>{{ formatName(userStore.user.email) }}</div>
-          </div>
-          <Icon class="setting-icon" icon="mingcute:down-small-fill" width="24" height="24"/>
+    <div class="notice icon-item" @click="openNotice">
+      <Icon icon="streamline-plump:announcement-megaphone"/>
+    </div>
+    <el-dropdown ref="userinfoRef" @visible-change="e => userInfoShow = e" :teleported="false"
+                 popper-class="detail-dropdown">
+      <div class="avatar" @click="userInfoHide">
+        <div class="avatar-text">
+          <div>{{ formatName(userStore.user.email) }}</div>
         </div>
-        <template #dropdown>
-          <div class="user-details">
-            <div class="details-avatar">
-              {{ formatName(userStore.user.email) }}
+        <Icon class="setting-icon" icon="mingcute:down-small-fill" width="20" height="20"/>
+      </div>
+      <template #dropdown>
+        <div class="user-details">
+          <div class="details-avatar">
+            {{ formatName(userStore.user.email) }}
+          </div>
+          <div class="user-name">
+            {{ userStore.user.name }}
+          </div>
+          <div class="detail-email" @click="copyEmail(userStore.user.email)">
+            {{ userStore.user.email }}
+          </div>
+          <div class="detail-user-type">
+            <el-tag>{{ userStore.user.role.name }}</el-tag>
+          </div>
+          <div class="action-info">
+            <div>
+              <span style="margin-right: 10px">{{ $t('sendCount') }}</span>
+              <span style="margin-right: 10px">{{ $t('accountCount') }}</span>
             </div>
-            <div class="user-name">
-              {{ userStore.user.name }}
-            </div>
-            <div class="detail-email" @click="copyEmail(userStore.user.email)">
-              {{ userStore.user.email }}
-            </div>
-            <div class="detail-user-type">
-              <el-tag>{{ userStore.user.role.name }}</el-tag>
-            </div>
-            <div class="action-info">
+            <div>
               <div>
-                <span style="margin-right: 10px">{{ $t('sendCount') }}</span>
-                <span style="margin-right: 10px">{{ $t('accountCount') }}</span>
+                <span v-if="sendCount" style="margin-right: 5px">{{ sendCount }}</span>
+                <el-tag v-if="!hasPerm('email:send')">{{ sendType }}</el-tag>
+                <el-tag v-else>{{ sendType }}</el-tag>
               </div>
               <div>
-                <div>
-                  <span v-if="sendCount" style="margin-right: 5px">{{ sendCount }}</span>
-                  <el-tag v-if="!hasPerm('email:send')">{{ sendType }}</el-tag>
-                  <el-tag v-else>{{ sendType }}</el-tag>
-                </div>
-                <div>
-                  <el-tag v-if="settingStore.settings.manyEmail || settingStore.settings.addEmail">
-                    {{ $t('disabled') }}
-                  </el-tag>
-                  <span v-else-if="accountCount && hasPerm('account:add')"
-                        style="margin-right: 5px">{{ $t('totalUserAccount', {msg: accountCount}) }}</span>
-                  <el-tag v-else-if="!accountCount && hasPerm('account:add')">{{ $t('unlimited') }}</el-tag>
-                  <el-tag v-else-if="!hasPerm('account:add')">{{ $t('unauthorized') }}</el-tag>
-                </div>
+                <el-tag v-if="settingStore.settings.manyEmail || settingStore.settings.addEmail">
+                  {{ $t('disabled') }}
+                </el-tag>
+                <span v-else-if="accountCount && hasPerm('account:add')"
+                      style="margin-right: 5px">{{ $t('totalUserAccount', {msg: accountCount}) }}</span>
+                <el-tag v-else-if="!accountCount && hasPerm('account:add')">{{ $t('unlimited') }}</el-tag>
+                <el-tag v-else-if="!hasPerm('account:add')">{{ $t('unauthorized') }}</el-tag>
               </div>
-            </div>
-            <div class="logout">
-              <el-button type="primary" :loading="logoutLoading" @click="clickLogout">{{ $t('logOut') }}</el-button>
             </div>
           </div>
-        </template>
-      </el-dropdown>
-    </div>
+          <div class="logout">
+            <el-button type="primary" :loading="logoutLoading" @click="clickLogout">{{ $t('logOut') }}</el-button>
+          </div>
+        </div>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
 <script setup>
 import router from "@/router";
-import hanburger from '@/components/hamburger/index.vue'
 import {logout} from "@/request/login.js";
 import {Icon} from "@iconify/vue";
 import {useUiStore} from "@/store/ui.js";
 import {useUserStore} from "@/store/user.js";
-import {useRoute} from "vue-router";
 import {computed, ref} from "vue";
 import {useSettingStore} from "@/store/setting.js";
 import {hasPerm} from "@/perm/perm.js"
 import {useI18n} from "vue-i18n";
-import {setExtend} from "@/utils/day.js"
 
 const {t} = useI18n();
-const route = useRoute();
 const settingStore = useSettingStore();
 const userStore = useUserStore();
 const uiStore = useUiStore();
@@ -182,11 +169,6 @@ async function copyEmail(email) {
   }
 }
 
-function changeLang(lang) {
-  setExtend(lang === 'en' ? 'en' : 'zh-cn')
-  settingStore.lang = lang
-}
-
 function openNotice() {
   uiStore.showNotice()
 }
@@ -227,17 +209,9 @@ function openDark(e) {
 function switchDark(nextIsDark, root) {
   root.setAttribute('class', nextIsDark ? 'dark' : '')
   const metaTag = document.getElementById('theme-color-meta');
-  const isMobile =  !window.matchMedia("(pointer: fine) and (hover: hover)").matches;
-  metaTag.setAttribute('content', nextIsDark ? (isMobile ? '#141414' : '#000000') : (isMobile ? '#191A23' : '#F1F1F1'));
+  // 顶部导航始终是纯黑，状态栏颜色保持一致
+  metaTag.setAttribute('content', '#000000');
   uiStore.dark = nextIsDark
-}
-
-function openSend() {
-  uiStore.writerRef.open()
-}
-
-function changeAside() {
-  uiStore.asideShow = !uiStore.asideShow
 }
 
 function clickLogout() {
@@ -258,12 +232,14 @@ function formatName(email) {
 <style>
 .detail-dropdown {
   color: var(--el-text-color-primary) !important;
+  border-radius: var(--ym-r-lg);
+  padding: 6px;
 }
 </style>
 <style lang="scss" scoped>
 
 :deep(.el-popper.is-pure) {
-  border-radius: 6px;
+  border-radius: var(--ym-r-lg);
 }
 
 .user-details {
@@ -272,6 +248,7 @@ function formatName(email) {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
+  color: var(--el-text-color-primary);
 
   .user-name {
     font-weight: bold;
@@ -350,124 +327,75 @@ function formatName(email) {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-  }
-}
-
-
-.header {
-  text-align: right;
-  font-size: 12px;
-  display: grid;
-  height: 100%;
-  gap: 10px;
-  grid-template-columns: auto auto 1fr;
-}
-
-.header.not-send {
-  grid-template-columns: auto 1fr;
-}
-
-.writer-box {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 5px;
-
-  .writer {
-    width: 34px;
-    height: 34px;
     border-radius: 50%;
-    color: #ffffff;
-    background: linear-gradient(135deg, #1890ff, #3a80dd);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .writer-text {
-      margin-left: 15px;
-      font-size: 14px;
-      font-weight: bold;;
-    }
   }
 }
 
-.header-btn {
-  display: inline-flex;
-  align-items: center;
-  height: 100%;
-  min-width: 0;
-}
 
-.breadcrumb-item {
-  font-weight: bold;
-  font-size: 14px;
-  color: var(--el-text-color-primary);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
+/* ---------- 全局导航右侧工具区 ---------- */
 .toolbar {
   display: flex;
-  justify-content: end;
-  gap: 15px;
-  @media (max-width: 767px) {
-    gap: 10px;
-  }
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  height: 100%;
 
   .icon-item {
     align-self: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--ym-r-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.85);
+    transition: background 0.18s ease, color 0.18s ease;
   }
 
   .icon-item:hover {
-    background: var(--base-fill);
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
   }
 
   .notice {
-    font-size: 22px;
-    margin-right: 4px;
-  }
-
-  .dark-icon {
     font-size: 20px;
   }
 
+  .dark-icon {
+    font-size: 18px;
+  }
+
   .sun-icon {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .avatar {
     display: flex;
     align-items: center;
     cursor: pointer;
+    gap: 1px;
+    margin-left: 6px;
+    padding-left: 14px;
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
 
     .avatar-text {
-      background: var(--el-bg-color);
-      color: var(--el-text-color-primary);
-      height: 30px;
-      width: 30px;
+      background: linear-gradient(0deg, #3a3a3d, #4a4a4e);
+      color: #ffffff;
+      height: 26px;
+      width: 26px;
+      font-size: 11px;
+      font-weight: 600;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 8px;
-      border: 1px solid var(--dark-border);
+      border-radius: 50%;
+      user-select: none;
     }
 
     .setting-icon {
       position: relative;
-      top: 0;
-      margin-right: 10px;
-      bottom: 10px;
+      color: rgba(255, 255, 255, 0.7);
     }
   }
 
