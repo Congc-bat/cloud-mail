@@ -785,4 +785,34 @@ function close() {
 .icon {
   cursor: pointer;
 }
+
+/* ============================================================
+ * Apple 风格皮肤（覆盖层）：写邮件面板
+ * ============================================================ */
+.send {
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+
+  .write-box {
+    border: 1px solid var(--ym-hairline-soft);
+    border-radius: var(--ym-r-lg);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+    padding: 18px 20px;
+
+    @media (max-width: 1024px) {
+      border-radius: 0;
+      background: var(--ym-canvas);
+      padding: 14px 16px;
+    }
+  }
+
+  .title {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ym-hairline-soft);
+    font-size: 14px;
+    letter-spacing: -0.2px;
+  }
+}
 </style>
