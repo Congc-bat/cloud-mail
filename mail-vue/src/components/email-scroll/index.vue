@@ -1356,4 +1356,103 @@ ul {
   margin: 0;
 }
 
+/* ============================================================
+ * Apple 风格皮肤（覆盖层）：列表工具条 + 邮件行
+ * ============================================================ */
+.header-actions {
+  padding: 8px 14px;
+  background: var(--ym-canvas);
+
+  .header-left {
+    column-gap: 16px;
+    color: var(--ym-ink-48);
+  }
+
+  .header-left .icon:hover {
+    color: var(--ym-primary);
+  }
+
+  .header-right {
+    color: var(--ym-ink-48);
+
+    .email-count {
+      margin-top: 4px;
+      font-size: 12px;
+      letter-spacing: -0.12px;
+      color: var(--ym-ink-48);
+    }
+
+    .more-icon:hover {
+      color: var(--ym-primary);
+    }
+  }
+}
+
+:deep(.email-row) {
+  box-shadow: none;
+  border-bottom: 1px solid var(--ym-hairline-soft);
+  transition: background 0.16s ease;
+
+  &:hover {
+    background-color: var(--ym-parchment);
+  }
+
+  &.right-checked,
+  &.right-checked:hover {
+    background-color: var(--email-right-click-background);
+  }
+
+  .title .email-sender {
+    color: var(--ym-ink);
+    letter-spacing: -0.2px;
+  }
+
+  .title .email-sender .phone-time,
+  .email-right,
+  .email-time {
+    font-size: 12px;
+    letter-spacing: -0.12px;
+    color: var(--ym-ink-48);
+  }
+
+  .title .email-text .email-subject {
+    font-size: 14px;
+    letter-spacing: -0.224px;
+    color: var(--ym-ink);
+  }
+
+  .title .email-text .email-content {
+    font-size: 13px;
+    letter-spacing: -0.16px;
+    color: var(--ym-ink-48);
+  }
+
+  .title .email-text .code-tag {
+    height: 18px;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 0 8px;
+    color: var(--ym-primary);
+    background: rgba(0, 102, 204, 0.08);
+    border: 1px solid rgba(0, 102, 204, 0.16);
+    border-radius: var(--ym-r-pill);
+  }
+
+  .user-info {
+    font-size: 12px;
+    color: var(--ym-ink-48);
+  }
+}
+
+:deep(.email-row .unread) {
+  background: var(--ym-primary);
+}
+
+.scroll .noLoading {
+  font-size: 12px;
+  letter-spacing: -0.12px;
+  color: var(--ym-ink-48);
+}
+
 </style>
