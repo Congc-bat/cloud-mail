@@ -7,6 +7,8 @@ import { createPinia } from 'pinia';
 import piniaPersistedState from 'pinia-plugin-persistedstate';
 import 'element-plus/theme-chalk/dark/css-vars.css';
 import 'nprogress/nprogress.css';
+// Yifly Mail 主题层：Apple 设计语言（必须放在 element-plus 样式之后）
+import './styles/apple-theme.css';
 import perm from "@/perm/perm.js";
 const pinia = createPinia().use(piniaPersistedState)
 import i18n from "@/i18n/index.js";
