@@ -209,8 +209,8 @@ function openDark(e) {
 function switchDark(nextIsDark, root) {
   root.setAttribute('class', nextIsDark ? 'dark' : '')
   const metaTag = document.getElementById('theme-color-meta');
-  // 顶部导航始终是纯黑，状态栏颜色保持一致
-  metaTag.setAttribute('content', '#000000');
+  // 顶部横栏是橙色，手机端状态栏也跟随橙色
+  metaTag.setAttribute('content', '#e8590c');
   uiStore.dark = nextIsDark
 }
 
@@ -244,44 +244,53 @@ function formatName(email) {
 
 .user-details {
   width: 250px;
+  padding: 4px 0 10px;
   font-size: 14px;
   display: grid;
   grid-template-columns: 1fr;
-  justify-items: center;
+  justify-items: stretch;
+  text-align: left;
   color: var(--el-text-color-primary);
 
   .user-name {
     font-weight: bold;
     margin-top: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 250px;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: center;
+    text-align: left;
   }
 
   .detail-user-type {
     margin-top: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .action-info {
     width: 100%;
     display: grid;
     grid-template-columns: auto auto;
-    margin-top: 10px;
+    gap: 12px;
+    margin-top: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: left;
 
     > div:first-child {
       display: grid;
       align-items: center;
       gap: 10px;
+      text-align: left;
     }
 
     > div:last-child {
       display: grid;
       gap: 10px;
-      text-align: center;
+      text-align: left;
 
       > div {
         display: flex;
@@ -291,19 +300,19 @@ function formatName(email) {
   }
 
   .detail-email {
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 250px;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: center;
+    text-align: left;
     color: var(--regular-text-color);
     cursor: pointer;
   }
 
   .logout {
-    margin-top: 20px;
+    margin-top: 16px;
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
@@ -311,13 +320,14 @@ function formatName(email) {
 
     .el-button {
       border-radius: 6px;
-      height: 28px;
+      height: 32px;
       width: 100%;
     }
   }
 
   .details-avatar {
-    margin-top: 20px;
+    margin-top: 14px;
+    margin-left: 16px;
     height: 40px;
     width: 40px;
     background: var(--el-bg-color);
@@ -380,7 +390,8 @@ function formatName(email) {
     border-left: 1px solid rgba(255, 255, 255, 0.14);
 
     .avatar-text {
-      background: linear-gradient(0deg, #3a3a3d, #4a4a4e);
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.45);
       color: #ffffff;
       height: 26px;
       width: 26px;
