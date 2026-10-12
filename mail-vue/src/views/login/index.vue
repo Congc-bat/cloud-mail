@@ -10,6 +10,7 @@
     <div v-else :style="background"></div>
     <div class="form-wrapper">
       <div class="container">
+        <img class="form-badge" src="/huizhang-dark.svg" alt="logo" draggable="false"/>
         <span class="form-title">{{ settingStore.settings.title }}</span>
         <span class="form-desc" v-if="show === 'login'">{{ $t('loginTitle') }}</span>
         <span class="form-desc" v-else>{{ $t('regTitle') }}</span>
@@ -677,6 +678,17 @@ function submitRegister() {
     border-radius: 6px;
   }
 
+  /* Apple 风格皮肤（覆盖层） */
+  .form-badge {
+    height: 32px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left center;
+    margin-bottom: 20px;
+    user-select: none;
+  }
+
   .form-desc {
     margin-top: 5px;
     margin-bottom: 18px;
@@ -684,8 +696,10 @@ function submitRegister() {
   }
 
   .form-title {
-    font-weight: bold;
-    font-size: 22px !important;
+    font-family: var(--ym-font-display);
+    font-weight: 600;
+    font-size: 26px !important;
+    letter-spacing: -0.374px;
   }
 
   .switch {
